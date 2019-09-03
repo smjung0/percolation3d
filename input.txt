@@ -1,0 +1,18 @@
+# Input code for Percolation Network of CNT/Polymer Composite
+STRUCTURE BOX PBC
+DIMENSION x(-10.0 [um], +10.0 [um]) y(-10.0 [um], +10.0 [um]) z(-20.0 [um], +20.0 [um]) 
+VOLTAGE 1.0 [V]
+#LENGTH AVG = 10.0um, STD = 1.22um
+LENGTH WEIBULL 10000 10.5 11
+#RADIUS AVG = 6nm, STD = 0.5nm
+RADIUS LOGNORMAL 10000 1.7883 0.083
+TOLERANCE 1.0e-6
+CNT noofcnt=1 wall=12 sigma=0.01 [S/um] node=10 tht_max=30.0 [dgr]
+POLYMER strain=0.00 mass=1.19e-12 [g/um^3] poisson=0.49 deltaE=1.0 [eV] M=400 Dcutoff=0.0010 [um]
+RANDTRIAL n=1 seed=100000
+# if seed=-1 : equal spacing
+# else if seed=-1 : time dependent random
+# else random_seed = seed value
+CALCULATE VOLF init=4000 noofsteps=1 delta=200
+#CALCULATE STRN init=0.00 noofsteps=101 delta=0.01
+END
