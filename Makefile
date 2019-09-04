@@ -1,8 +1,8 @@
 CC = icpc
 OPT_FLAGS =-O2 -xHost -qopenmp
 
-perc3d5 : perc3d_main.o perc3d_solve.o perc3d_structure.o perc3d.o cnt.o
-	icpc -std=c++11 ${OPT_FLAGS} -o perc3d5 perc3d_main.o perc3d_solve.o perc3d_structure.o perc3d.o cnt.o -liomp5 -lpthread -lm -ldl
+perc3d : perc3d_main.o perc3d_solve.o perc3d_structure.o perc3d.o cnt.o
+	icpc -std=c++11 ${OPT_FLAGS} -o perc3d perc3d_main.o perc3d_solve.o perc3d_structure.o perc3d.o cnt.o -liomp5 -lpthread -lm -ldl
 
 perc3d_main.o : perc3d_main.cpp
 	icpc -std=c++11 ${OPT_FLAGS} -c -o perc3d_main.o perc3d_main.cpp -liomp5 -lpthread -lm -ldl 
