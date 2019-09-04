@@ -96,6 +96,7 @@ LENGTH WEIBULL [rand_seed] [lambda] [k]
 ```
 
 Here, [rand_seed] is the random seed number for Weibull distribution, [lambda] and [k] are parameters for the Weibull distribution. The relationships between the average length, m_l and standard deviation of the length of CNT, s_l are as follow.
+
 $$
 m_l = \lambda\cdot  \Gamma (1+{k}^{-1}) \\
 s_l = \lambda^2 \cdot \left[\Gamma \left(1+\dfrac{2}{k} \right) - \left(\Gamma \left(1+\dfrac{1}{k} \right) \right)^2\right]
