@@ -2,6 +2,8 @@
 
 Source codes for the three-dimensional simulation of an electrical percolation of a carbon nanotube based polymer composite. The Electromechanical properties of a given CNT/polymer composite under a strain can be simulated by modifying the "input.txt" file for the given simulation condition.
 
+
+
 ## Preparation of Simulation
 
 ### Before compilation 
@@ -36,9 +38,9 @@ An example of the input file is as below.
 STRUCTURE BOX PBC
 DIMENSION x(-10.0 [um], +10.0 [um]) y(-10.0 [um], +10.0 [um]) z(-10.0 [um], +10.0 [um]) 
 VOLTAGE 1.0 [V]
-#LENGTH AVG = 10.0um, STD = 1.22um
+#LENGTH CONST 5.64
 LENGTH WEIBULL 10000 10.5 11
-#RADIUS AVG = 6nm, STD = 0.5nm
+#RADIUS CONST 0.025 
 RADIUS LOGNORMAL 10000 1.7883 0.083
 TOLERANCE 1.0e-7
 CNT noofcnt=1 wall=12 sigma=0.01 [S/um] node=10 tht_max=30.0 [dgr]
@@ -62,13 +64,7 @@ END
 STRUCTURE [shape] [boundary_condition] 
 ```
 
-Box structure: shape=BOX
-
-Cylindrical structure: shape=CYL
-
-Periodic boundary condition: boundary_condition=PBC
-
-Free boundary condition: boundary_condition=FBC
+Box structure: shape=BOX, Cylindrical structure: shape=CYL, Periodic boundary condition: boundary_condition=PBC, Free boundary condition: boundary_condition=FBC
 
 
 
@@ -85,6 +81,48 @@ DIMENSION x(-10.0 [um], +10.0 [um]) y(-10.0 [um], +10.0 [um]) z(-10.0 [um], +10.
 VOLTAGE 1.0 [V]
 ```
 
+
+
+- To set the length of CNT, we have two options of constant length and following the Weibull distribution. If you want to use constant length, just use the following line. 
+
+```
+LENGTH CONST 5.64
+```
+
+Here, 5.64 is an example of the constant CNT length in micrometer. Or, if you want to use Weibull distribution, just use the following line by changing appropriate number for a given simulation condition.
+
+```
+LENGTH WEIBULL [rand_seed] [lambda] [k]
+```
+
+Here, [rand_seed] is the random seed number for Weibull distribution, [lambda] and [k] are parameters for the Weibull distribution. The relationships between the average length, m_l and standard deviation of the length of CNT, s_l are as follow.
+$$
+\begin{align}
+&m_l = \lambda\cdot  \Gamma (1+{k}^{-1}) \\
+&s_l = \lambda^2 \cdot \left[\Gamma \left(1+\dfrac{2}{k} \right) - \left(\Gamma \left(1+\dfrac{1}{k} \right) \right)^2\right]
+\end{align}
+$$
+
+
+- To set the radius of CNT, we also have two options of constant radius and following the Log-normal distribution. If you want to use constant radius, just use the following line. 
+
+```
+RADIUS CONST 0.025
+```
+
+Here, 0.025 is an example of the constant CNT radius in micrometer. Or, if you want to use Log-normal distribution, just use the following line by changing appropriate number for a given simulation condition.
+
+```
+RADIUS LOGNORMAL [rand_seed] [mu] [sigma]
+```
+
+Here, [rand_seed] is the random seed number for Log-normal distribution, [mu] and [sigma] are parameters for the Log-normal distribution. The relationships between the average radius, m_r and standard deviation of the radius of CNT, s_r are as follow.
+$$
+\begin{align}
+&m_r = exp \left( \mu + \dfrac{\sigma^2}{2}  \right) \\
+&s_r = \left\{ \left[ exp(\sigma^2) - 1 \right] exp(2 \mu + \sigma^2)\right\}^{1/2}   
+\end{align}
+$$
 
 
 - To set tolerance of matrix solver, just change the number in the following line.
@@ -156,8 +194,6 @@ Here, keyword STRN is used for the calculation by volume fraction. init is the i
 
 
 
-
- 
 
 
 
