@@ -98,7 +98,7 @@ LENGTH WEIBULL [rand_seed] [lambda] [k]
 Here, [rand_seed] is the random seed number for Weibull distribution, [lambda] and [k] are parameters for the Weibull distribution. The relationships between the average length, m_l and standard deviation of the length of CNT, s_l are as follow.
 
 $$
-m_l = \lambda\cdot  \Gamma (1+{k}^{-1}) \\
+m_l = \lambda\cdot  \Gamma (1+{k}^{-1}) \\\
 s_l = \lambda^2 \cdot \left[\Gamma \left(1+\frac{2}{k} \right) - \left(\Gamma \left(1+\dfrac{1}{k} \right) \right)^2\right]
 $$
 
@@ -118,7 +118,7 @@ RADIUS LOGNORMAL [rand_seed] [mu] [sigma]
 Here, [rand_seed] is the random seed number for Log-normal distribution, [mu] and [sigma] are parameters for the Log-normal distribution. The relationships between the average radius, m_r and standard deviation of the radius of CNT, s_r are as follow.
 
 $$
-m_r = exp \left( \mu + \frac{\sigma^2}{2}  \right) \\
+m_r = exp \left( \mu + \frac{\sigma^2}{2}  \right) \\\
 s_r = \left\{ \left[ exp(\sigma^2) - 1 \right] exp(2 \mu + \sigma^2)\right\}^{1/2}   
 $$
 
