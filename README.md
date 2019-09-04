@@ -99,6 +99,7 @@ Here, [rand_seed] is the random seed number for Weibull distribution, [lambda] a
 
 <img src="https://latex.codecogs.com/svg.latex?m_l=\lambda\cdot\Gamma(1+{k}^{-1})" />
 
+<img src="https://latex.codecogs.com/svg.latex?s_l=\lambda^2\cdot\left[\Gamma\left(1+\frac{2}{k}\right)-\left(\Gamma\left(1+\dfrac{1}{k}\right)\right)^{2}\right]" />
 $$
 m_l = \lambda\cdot  \Gamma (1+{k}^{-1}) \\
 s_l = \lambda^2 \cdot \left[\Gamma \left(1+\frac{2}{k} \right) - \left(\Gamma \left(1+\dfrac{1}{k} \right) \right)^2\right]
