@@ -4,7 +4,7 @@ Source codes for the three-dimensional simulation of an electrical percolation o
 
 
 
-# Author
+## Author
 
 - Sungmin Jung
 
