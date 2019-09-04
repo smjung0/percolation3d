@@ -116,9 +116,9 @@ RADIUS LOGNORMAL [rand_seed] [mu] [sigma]
 
 Here, [rand_seed] is the random seed number for Log-normal distribution, [mu] and [sigma] are parameters for the Log-normal distribution. The relationships between the average radius, m_r and standard deviation of the radius of CNT, s_r are as follow.
 
-<img src="https://latex.codecogs.com/svg.latex?m_r = exp \left( \mu + \frac{\sigma^2}{2}  \right)" />
+<img src="https://latex.codecogs.com/svg.latex?m_r=exp\left(\mu+\frac{\sigma^2}{2}\right)" />
 
-<img src="https://latex.codecogs.com/svg.latex?s_r = \left\{ \left[ exp(\sigma^2) - 1 \right] exp(2 \mu + \sigma^2)\right\}^{1/2}" />
+<img src="https://latex.codecogs.com/svg.latex?s_r=\left\{\left[exp(\sigma^2)-1\right]exp(2 \mu+\sigma^2)\right\}^{1/2}" />
 
 
 $$
