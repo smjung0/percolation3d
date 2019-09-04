@@ -7,12 +7,10 @@ Source codes for the three-dimensional simulation of an electrical percolation o
 ### Before compilation 
 Sources require Eigen Library as a matrix operation. Please ensure that Eigen library is configured to your environment. The library can be downloaded from the below link.
 
-```
 [Eigen](http://eigen.tuxfamily.org)
-```
 
 ### Compilation
-The execution file is named to "perc3d" in the given Makefile. You can change the execution file name. "perc3d" is used in this document  
+The execution file is named to "perc3d" in the given Makefile. You can change the execution file name. "perc3d" will be used in this document.  
 
 ### After making execution file
 The simulation is prepared. Just type the execution file name followed by an input text file as below. 
@@ -36,23 +34,136 @@ An example of the input file is as below.
 ```
 # Input code for Percolation Network of CNT/Polymer Composite
 STRUCTURE BOX PBC
-DIMENSION x(-10.0 [um], +10.0 [um]) y(-10.0 [um], +10.0 [um]) z(-20.0 [um], +20.0 [um]) 
+DIMENSION x(-10.0 [um], +10.0 [um]) y(-10.0 [um], +10.0 [um]) z(-10.0 [um], +10.0 [um]) 
 VOLTAGE 1.0 [V]
 #LENGTH AVG = 10.0um, STD = 1.22um
 LENGTH WEIBULL 10000 10.5 11
 #RADIUS AVG = 6nm, STD = 0.5nm
 RADIUS LOGNORMAL 10000 1.7883 0.083
-TOLERANCE 1.0e-6
+TOLERANCE 1.0e-7
 CNT noofcnt=1 wall=12 sigma=0.01 [S/um] node=10 tht_max=30.0 [dgr]
 POLYMER strain=0.00 mass=1.19e-12 [g/um^3] poisson=0.49 deltaE=1.0 [eV] M=400 Dcutoff=0.0010 [um]
 RANDTRIAL n=1 seed=100000
 # if seed=-1 : equal spacing
-# else if seed=-1 : time dependent random
+# else if seed=0 : time dependent random
 # else random_seed = seed value
 CALCULATE VOLF init=4000 noofsteps=1 delta=200
 #CALCULATE STRN init=0.00 noofsteps=101 delta=0.01
 END
 ```
+
+- Comment line: started with # in the text file.
+
+  
+
+- To configure shape and boundary condition of calculation domain.
+
+```
+STRUCTURE [shape] [boundary_condition] 
+```
+
+Box structure: shape=BOX
+
+Cylindrical structure: shape=CYL
+
+Periodic boundary condition: boundary_condition=PBC
+
+Free boundary condition: boundary_condition=FBC
+
+
+
+- To set the range of calculation domain (for both BOX and CYL), just change the numbers in the following line.
+
+```
+DIMENSION x(-10.0 [um], +10.0 [um]) y(-10.0 [um], +10.0 [um]) z(-10.0 [um], +10.0 [um]) 
+```
+
+
+
+- To set the voltage difference between two electrodes, just change the number in the following line.
+```
+VOLTAGE 1.0 [V]
+```
+
+
+
+- To set tolerance of matrix solver, just change the number in the following line.
+
+```
+TOLERANCE 1.0e-7
+```
+
+
+
+- To set the material parameters of CNTs, just change the number in the following line.
+
+```
+CNT noofcnt=1 wall=12 sigma=0.01 [S/um] node=10 tht_max=30.0 [dgr]
+```
+
+Here, noofcnt is total number of CNTs in the composite. wall is the number of wall of given CNTs. sigma is a conductivity of CNTs, node is the number of initial node representing the curved CNTs. Finally, tht_max is the maximum deviation angle for representing the waviness of the curved CNTs.
+
+
+
+- To set the material parameters of polymer and other properties, just change the number in the following line.
+
+```
+POLYMER strain=0.00 mass=1.19e-12 [g/um^3] poisson=0.49 deltaE=1.0 [eV] M=400 Dcutoff=0.0010 [um]
+```
+
+Here, strain is amount of deformation from initial size. 0 means no strain. mass is the mass density of the polymer, poisson is the Poisson's ratio of the given polymer. deltaE is energy barrier between CNTs and polymer and M is the number of conduction channel through tunneling path. Dcutoff is the cutoff distance representing a criteria for a union operation between two adjacent CNTs.
+
+
+
+- To set the number of random trial and its random seed, change the following line.
+```
+RANDTRIAL n=1 seed=100000
+```
+Here, n is the number of random trial for single calculation step of volume fraction or strain. seed is the random seed for randomizing the position and shape of CNTs in the calculation domain. If seed<0, random seeds will be equally spaced from 1 to RAND_MAX for the number of random trial, n. Else if seed=0, time dependent random seed will be given, else (seed > 0) seed value will be given to random_seed.
+
+
+
+- To calculate the conductance and conductivity as a function of volume fraction, use the following line.
+
+```
+CALCULATE VOLF init=4000 noofsteps=1 delta=200
+```
+
+Here, keyword VOLF is used for the calculation by volume fraction. init is the initial number of CNTs, noofstep is the number of steps for the calculation, and delta is the difference of the number of CNTs between each calculation step.
+
+
+
+- To calculate the conductance and conductivity as a function of strain, use the following line.
+
+```
+CALCULATE STRN init=0.00 noofsteps=101 delta=0.01
+```
+
+Here, keyword STRN is used for the calculation by volume fraction. init is the initial strain of a composite, noofstep is the number of steps for the calculation, and delta is the difference of strain between each calculation step.
+
+
+
+- Use "END" keyword to finish the script.
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
 
 
 
