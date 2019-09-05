@@ -24,7 +24,12 @@ Sources require Eigen Library as a matrix operation. Please ensure that Eigen li
 ### Compilation
 The execution file is named to "perc3d" in the given Makefile. You can change the execution file name. "perc3d" will be used in this document.  
 
-### After making execution file
+
+
+## Simulation
+
+### Execution file
+
 The simulation is prepared. Just type the execution file name followed by an input text file as below. 
 
 ```
@@ -39,7 +44,7 @@ $ perc3d condition_1.txt
 
 
 
-## Format of Input File
+### Format of Input File
 
 An example of the input file is as below.
 
@@ -105,7 +110,7 @@ Here, 5.64 is an example of the constant CNT length in micrometer. Or, if you wa
 LENGTH WEIBULL [rand_seed] [lambda] [k]
 ```
 
-Here, [rand_seed] is the random seed number for Weibull distribution, [lambda] and [k] are parameters for the Weibull distribution. The relationships between the average length, m_l and standard deviation of the length of CNT, s_l are as follow.
+Here, [rand_seed] is the random seed number for [Weibull distribution](http://www.cplusplus.com/reference/random/), [lambda] and [k] are parameters for the Weibull distribution. The relationships between the average length, m_l, standard deviation of the length of CNT, s_l and [lambda], [k] are as follows.
 
 <img src="https://latex.codecogs.com/svg.latex?m_l=\lambda\cdot\Gamma(1+{k}^{-1})" />
 
@@ -126,7 +131,7 @@ Here, 0.025 is an example of the constant CNT radius in micrometer. Or, if you w
 RADIUS LOGNORMAL [rand_seed] [mu] [sigma]
 ```
 
-Here, [rand_seed] is the random seed number for Log-normal distribution, [mu] and [sigma] are parameters for the Log-normal distribution. The relationships between the average radius, m_r and standard deviation of the radius of CNT, s_r are as follow.
+Here, [rand_seed] is the random seed number for [Log-normal distribution](http://www.cplusplus.com/reference/random/), [mu] and [sigma] are parameters for the Log-normal distribution. The relationships between the average radius, m_r, standard deviation of the radius of CNT, s_r and [mu] and [sigma] are as follow.
 
 <img src="https://latex.codecogs.com/svg.latex?m_r=exp\left(\mu+\frac{\sigma^2}{2}\right)" />
 
@@ -194,6 +199,118 @@ Here, keyword STRN is used for the calculation by volume fraction. init is the i
 - Use "END" keyword to finish the script.
 
 
+
+## Results
+
+### Volume fraction vs. Conductivity(or Conductance) 
+
+If you use the CALCULATE keyword with VOLF as below, The "conductance"_VOLF.txt" and "conductivity_VOLF.txt" files will be generated as results of the simulation. 
+```
+CALCULATE VOLF init=4000 noofsteps=1 delta=200
+```
+
+
+
+The file format of the result is as belows.
+
+```
+VF[%]		WF[%]		TRY(1)		TRY(2)		TRY(3)		TRY(4)
+4.74E+00	7.26E+00	2.92E-04	2.74E-04	2.88E-04	4.69E-04
+4.85E+00	7.42E+00	3.19E-04	3.11E-04	3.12E-04	5.51E-04
+...
+...
+5.18E+00	7.92E+00	4.50E-04	4.24E-04	4.40E-04	7.32E-04
+```
+
+Here, the number i in TRY(i) is an index of single Monte-Carlo trial and 1 ≤ i ≤ n for the number of random trial. VF and WF are volume fraction and weight fraction of CNT in a composite. Unit of the data are simens [S] for "conductance_VOLF.txt" and simens per meter [S/m] for "conductivity_VOLF.txt". 
+
+
+
+### Strain vs. Conductivity(or Conductance) 
+
+If you use the CALCULATE keyword with STRN as below, The "conductance"_STRN.txt" and "conductivity_STRN.txt" files will be generated as results of the simulation. 
+
+```
+CALCULATE STRN init=0.00 noofsteps=10 delta=0.02
+```
+
+
+
+The file format of the result is as belows.
+
+```
+STRAIN[%]	VF[vol%]	WF[wt%]		TRY(1)		TRY(2)		TRY(3)		TRY(4)
+0.00E+00	3.04E+00	4.24E+00	1.70E-05	1.57E-05	0.00E+00	4.92E-05
+2.00E-02	3.04E+00	4.24E+00	1.80E-05	0.00E+00	0.00E+00	4.89E-05
+4.00E-02	3.04E+00	4.24E+00	0.00E+00	0.00E+00	0.00E+00	4.85E-05
+6.00E-02	3.03E+00	4.24E+00	0.00E+00	0.00E+00	0.00E+00	3.49E-05
+8.00E-02	3.03E+00	4.24E+00	0.00E+00	0.00E+00	0.00E+00	3.48E-05
+1.00E-01	3.03E+00	4.23E+00	0.00E+00	0.00E+00	0.00E+00	2.58E-05
+1.20E-01	3.03E+00	4.23E+00	0.00E+00	0.00E+00	0.00E+00	2.37E-05
+1.40E-01	3.03E+00	4.23E+00	1.20E-05	0.00E+00	0.00E+00	2.26E-05
+1.60E-01	3.03E+00	4.23E+00	1.25E-05	0.00E+00	0.00E+00	2.25E-05
+1.80E-01	3.03E+00	4.23E+00	1.25E-05	0.00E+00	0.00E+00	2.24E-05
+2.00E-01	3.03E+00	4.23E+00	1.58E-05	0.00E+00	0.00E+00	2.27E-05
+```
+
+Here, the number i in TRY(i) is also an index of single Monte-Carlo trial and 1 ≤ i ≤ n for the number of random trial. Unit of the data are simens [S] for "conductance_VOLF.txt" and simens per meter [S/m] for "conductivity_VOLF.txt".
+
+
+
+### CNT data
+
+After finishing the calculation, all the distribution and the information of percolation network for single step  will be saved a folder "\cntdata". The format of file name is as below.
+
+
+```
+cnt_nXXX_sY.YY_rZZZZ.txt
+```
+
+Here, XXX is the number of CNTs, Y.YY is the amount of strain and ZZZZ is the random seed for this simulation. Take a look inside the data file as below.
+
+```
+DOMAIN: BOX
+BNDC: PBC
+MIN:(-10.000, -10.000, -10.000), MAX:(10.000, 10.000, 10.000)
+No. of CNTs: 5704
+Strain: 0.000
+Poisson ratio: 0.490
+Total No. of Perc. Network is 1
+144
+
+#CNT Data 
+
+Address: 0
+Parent:  144
+Length: 4.050578, Radius: 0.024751
+No. of Wall: 1
+Total No. of Nodes: 11
+Node: 	X		Y		Z(MEDIUM) 	L		Index	VTG		CND			Power
+0: 		9.61	2.526	3.630(MED)	0.000	0		0.997	4.276e-05	3.105e-21
+1: 		9.32	2.495	3.288(MED)	0.450	1		0.997	4.276e-05	1.385e-20
+2: 		8.98	2.436	3.001(MED)	0.900	2		0.997	4.276e-05	8.794e-22
+3: 		8.56	2.453	2.831(MED)	1.350	3		0.997	4.276e-05	1.034e-21
+4: 		8.16	2.508	2.648(MED)	1.800	4		0.997	4.276e-05	1.311e-21
+5: 		7.87	2.633	2.322(MED)	2.250	5		0.997	8.624e-05	2.689e-20
+6: 		7.76	2.679	2.132(MED)	2.474	6		0.997	8.483e-05	1.513e-22
+7: 		7.66	2.726	1.939(MED)	2.700	7		0.997	4.276e-05	1.163e-21
+8: 		7.37 	2.761	1.591(MED)	3.150	8		0.997	4.276e-05	3.349e-22
+9: 		7.16	2.950	1.244(MED)	3.601	9		0.997	4.276e-05	4.051e-22
+10: 	6.939	3.111	0.887(MED)	4.051	10		0.997
+
+Address: 1
+Parent:  1
+Length: 2.262174, Radius: 0.025742
+No. of Wall: 1
+Total No. of Nodes: 11
+Node: 	X		Y		Z(MEDIUM) 	L		Index	VTG		CND			Power
+0: 		-8.68	8.51	-8.318(MED)	0.00	0		0.00	8.283e-05	0.000e+00
+...
+```
+
+
+
+© Copyright 2019
 
 
 
