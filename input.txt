@@ -2,9 +2,9 @@
 STRUCTURE BOX PBC
 DIMENSION x(-10.0 [um], +10.0 [um]) y(-10.0 [um], +10.0 [um]) z(-20.0 [um], +20.0 [um]) 
 VOLTAGE 1.0 [V]
-#LENGTH AVG = 10.0um, STD = 1.22um
+#LENGTH CONST 5.0
 LENGTH WEIBULL 10000 10.5 11
-#RADIUS AVG = 6nm, STD = 0.5nm
+#RADIUS CONST 0.025
 RADIUS LOGNORMAL 10000 1.7883 0.083
 TOLERANCE 1.0e-6
 CNT noofcnt=1 wall=12 sigma=0.01 [S/um] node=10 tht_max=30.0 [dgr]
