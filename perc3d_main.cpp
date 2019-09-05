@@ -36,17 +36,14 @@ void SingleCalculation(SInput sInParam, int nRandomSeed, double *dVolumeFraction
 int main(int argc, char *argv[]) 
 {
 	int year = 2019;
-	int date = 07;
-	char month[255] = "AUG";
-	double version = 0.41;
+	int date = 05;
+	char month[255] = "SEP";
+	double version = 0.42;
 
 	
-	printf("RAND_MAX is %d", RAND_MAX); 
-
 	if ( argv[1] == NULL )
 	{
 		printf("Version %2.2f: %2d %s, %d\n", version, date, month, year);
-//		printf("Press any key to close program.\n");
 		exit(-1);
 	}
 
@@ -92,6 +89,16 @@ int main(int argc, char *argv[])
 		char directory[256] = "./cntdata";
 		mkdir(directory, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 
+		fprintf(fp_conductance, "VF[vol%%]\tWF[wt%%]");
+		fprintf(fp_conductivity, "VF[vol%%]\tWF[wt%%]");
+		for (int r = 0; r < nRandTrial; r++)
+		{
+			fprintf(fp_conductance, "\tTRY(%d)", r + 1);
+			fprintf(fp_conductivity, "\tTRY(%d)", r + 1);
+		}
+		fprintf(fp_conductance, "\n");
+		fprintf(fp_conductivity, "\n");
+
 		for (int n = 0; n < nNCNT.nNoofSteps; n++)
 		{
 			sInParam.m_nNoofCNTs = nNCNT.nDelta*n + nNCNT.nInit;
@@ -117,10 +124,10 @@ int main(int argc, char *argv[])
 				chdir("..");
 				printf("\n");
 
-				if( r == 0 ) fprintf(fp_conductance, "%2.5e\t%2.5e", dVolumeFraction*100., dConductance);
+				if (r == 0) fprintf(fp_conductance, "%2.5e\t%2.5e\t%2.5e", dVolumeFraction*100., dWeightFraction * 100, dConductance);
 				else fprintf(fp_conductance, "\t%5.2e", dConductance);
 
-				if (r == 0) fprintf(fp_conductivity, "%2.5e\t%2.5e", dVolumeFraction*100., dConductivity);
+				if (r == 0) fprintf(fp_conductivity, "%2.5e\t%2.5e\t%2.5e", dVolumeFraction*100., dWeightFraction * 100, dConductivity);
 				else fprintf(fp_conductivity, "\t%5.2e", dConductivity);
 
 			}
@@ -147,6 +154,17 @@ int main(int argc, char *argv[])
 
 		char directory[256] = "./cntdata";
 		mkdir(directory,S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+
+		fprintf(fp_conductance, "STRAIN[%%]\tVF[vol%%]\tWF[wt%%]");
+		fprintf(fp_conductivity, "STRAIN[%%]\tVF[vol%%]\tWF[wt%%]");
+		for (int r = 0; r < nRandTrial; r++)
+		{
+			fprintf(fp_conductance, "\tTRY(%d)", r + 1);
+			fprintf(fp_conductivity, "\tTRY(%d)", r + 1);
+		}
+		fprintf(fp_conductance, "\n");
+		fprintf(fp_conductivity, "\n");
+
 
 
 		for (int s = 0; s < dSTRN.nNoofSteps; s++)
@@ -175,10 +193,10 @@ int main(int argc, char *argv[])
 				chdir("..");
 				printf("\n");
 
-				if (r == 0) fprintf(fp_conductance, "%2.5e\t%2.5e\t%2.5e", sInParam.m_dStrain, dVolumeFraction*100., dConductance);
+				if (r == 0) fprintf(fp_conductance, "%2.5e\t%2.5e\t%2.5e\t%2.5e", sInParam.m_dStrain, dVolumeFraction*100., dWeightFraction*100., dConductance);
 				else fprintf(fp_conductance, "\t%5.2e", dConductance);
 
-				if (r == 0) fprintf(fp_conductivity, "%2.5e\t%2.5e", dVolumeFraction*100., dConductivity);
+				if (r == 0) fprintf(fp_conductivity, "%2.5e\t%2.5e\t%2.5e\t%2.5e", sInParam.m_dStrain, dVolumeFraction*100., dWeightFraction*100., dConductivity);
 				else fprintf(fp_conductivity, "\t%5.2e", dConductivity);
 
 			}

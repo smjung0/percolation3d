@@ -285,7 +285,7 @@ Parent:  144
 Length: 4.050578, Radius: 0.024751
 No. of Wall: 1
 Total No. of Nodes: 11
-Node: 	X		Y		Z(MEDIUM) 	L		Index	VTG		CND			Power
+Node: 	X		Y	Z(MEDIUM) 	L		Index	VTG		CND			Power
 0: 		9.61	2.526	3.630(MED)	0.000	0		0.997	4.276e-05	3.105e-21
 1: 		9.32	2.495	3.288(MED)	0.450	1		0.997	4.276e-05	1.385e-20
 2: 		8.98	2.436	3.001(MED)	0.900	2		0.997	4.276e-05	8.794e-22
@@ -303,7 +303,7 @@ Parent:  1
 Length: 2.262174, Radius: 0.025742
 No. of Wall: 1
 Total No. of Nodes: 11
-Node: 	X		Y		Z(MEDIUM) 	L		Index	VTG		CND			Power
+Node: 	X		Y	Z(MEDIUM) 	L		Index	VTG		CND			Power
 0: 		-8.68	8.51	-8.318(MED)	0.00	0		0.00	8.283e-05	0.000e+00
 ...
 ```
