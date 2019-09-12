@@ -2,8 +2,8 @@
 //	Source code for the simulation of electrical percolation of	CNT/polymer composite
 //	developed by Sungmin Jung, Ph.D.
 //  University of Cambridge
+//  Last update on 29th May 2019
 //  Contact: sm0104.jung@gmail.com, sj569@cam.ac.uk, s.jung@eng.cam.ac.uk
-//  Copyright (c) 2019
 
 #include "perc3d.h"
 #include "cnt.h"
@@ -36,9 +36,9 @@ void SingleCalculation(SInput sInParam, int nRandomSeed, double *dVolumeFraction
 int main(int argc, char *argv[]) 
 {
 	int year = 2019;
-	int date = 05;
+	int date = 12;
 	char month[255] = "SEP";
-	double version = 0.42;
+	double version = 0.43;
 
 	
 	if ( argv[1] == NULL )
@@ -63,12 +63,12 @@ int main(int argc, char *argv[])
 
 	ReadInput(/*fninput*/argv[1], &sInParam, &eCalculate, &nRandomSeed, &nRandTrial, &nNCNT, &dSTRN);
 
-	omp_set_num_threads(28);
+//	omp_set_num_threads(28);
 
 
 	int *nRandSeedArray = new int[nRandTrial];
 	if (nRandomSeed < 0)
-		for (int i = 0; i < nRandTrial; i++) 	nRandSeedArray[i] = RAND_MAX*(i+1)/nRandTrial;
+		for (int i = 0; i < nRandTrial; i++) 	nRandSeedArray[i] = (int) (RAND_MAX*(double) (i+1)/(double) nRandTrial);
 	else 
 		for (int i = 0; i < nRandTrial; i++) 	nRandSeedArray[i] = nRandomSeed;
 

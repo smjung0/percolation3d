@@ -2,8 +2,8 @@
 //	Source code for the simulation of electrical percolation of	CNT/polymer composite
 //	developed by Sungmin Jung, Ph.D.
 //  University of Cambridge
+//  Last update on 18th April 2019
 //  Contact: sm0104.jung@gmail.com, sj569@cam.ac.uk, s.jung@eng.cam.ac.uk
-//  Copyright (c) 2019
 
 #pragma once
 #include "cnt.h"
