@@ -110,7 +110,7 @@ Here, 5.64 is an example of the constant CNT length in micrometer. Or, if you wa
 LENGTH WEIBULL [rand_seed] [lambda] [k]
 ```
 
-Here, [rand_seed] is the random seed number for [Weibull distribution](http://www.cplusplus.com/reference/random/), [lambda] and [k] are parameters for the Weibull distribution. The relationships between the average length, m_l, standard deviation of the length of CNT, s_l and [lambda], [k] are as follows.
+Here, [rand_seed] is the random seed number for [Weibull distribution](http://www.cplusplus.com/reference/random/), [lambda] and [k] are parameters for the Weibull distribution. The relationships between the average length, $m_l$, standard deviation of the length of CNT, s_l and [lambda], [k] are as follows.
 
 <img src="https://latex.codecogs.com/svg.latex?m_l=\lambda\cdot\Gamma(1+{k}^{-1})" />
 
