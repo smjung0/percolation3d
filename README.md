@@ -151,10 +151,10 @@ TOLERANCE 1.0e-7
 - To set the material parameters of CNTs, just change the number in the following line.
 
 ```
-CNT noofcnt=1 wall=12 sigma=0.01 [S/um] node=10 tht_max=30.0 [dgr]
+CNT save=yes noofcnt=1 wall=12 sigma=0.01 [S/um] node=10 tht_max=30.0 [dgr]
 ```
 
-Here, noofcnt is total number of CNTs in the composite. wall is the number of wall of given CNTs. sigma is a conductivity of CNTs, node is the number of initial node representing the curved CNTs. Finally, tht_max is the maximum deviation angle for representing the waviness of the curved CNTs.
+Here, if save=yes, CNT data will be saved to './cntdata/' folder and if save=no, CNT data will not be saved.  noofcnt is total number of CNTs in the composite. wall is the number of wall of given CNTs. sigma is a conductivity of CNTs, node is the number of initial node representing the curved CNTs. Finally, tht_max is the maximum deviation angle for representing the waviness of the curved CNTs.
 
 
 
@@ -259,7 +259,7 @@ Here, the number i in TRY(i) is also an index of single Monte-Carlo trial and 1 
 
 ### CNT data
 
-After finishing the calculation, all the distribution and the information of percolation network for single step  will be saved a folder "\cntdata". The format of file name is as below.
+After finishing the calculation, all the distribution and the information of percolation network for single step  will be saved a folder "./cntdata". The format of file name is as below.
 
 
 ```
