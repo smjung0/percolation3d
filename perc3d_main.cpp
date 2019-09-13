@@ -73,6 +73,8 @@ int main(int argc, char *argv[])
 	else 
 		for (int i = 0; i < nRandTrial; i++) 	nRandSeedArray[i] = nRandomSeed;
 
+	char directory[256] = "./cntdata";
+
 
 	if (eCalculate == VOLF)
 	{
@@ -86,9 +88,11 @@ int main(int argc, char *argv[])
 		fp_conductance = fopen("conductance_VOLF.txt", "w");
 		FILE *fp_conductivity;
 		fp_conductivity = fopen("conductivity_VOLF.txt", "w");
-
-		char directory[256] = "./cntdata";
-		mkdir(directory, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+		
+		if( bSaveCNTData )
+		{
+			mkdir(directory, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+		}
 
 		fprintf(fp_conductance, "VF[vol%%]\tWF[wt%%]");
 		fprintf(fp_conductivity, "VF[vol%%]\tWF[wt%%]");
@@ -158,9 +162,11 @@ int main(int argc, char *argv[])
 
 		FILE *fp_conductance = fopen("conductance_STRN.txt", "w");
 		FILE *fp_conductivity = fopen("conductivity_STRN.txt", "w");
-
-		char directory[256] = "./cntdata";
-		mkdir(directory,S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+		
+		if( bSaveCNTData )
+		{
+			mkdir(directory,S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+		}
 
 		fprintf(fp_conductance, "STRAIN[%%]\tVF[vol%%]\tWF[wt%%]");
 		fprintf(fp_conductivity, "STRAIN[%%]\tVF[vol%%]\tWF[wt%%]");
