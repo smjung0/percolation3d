@@ -7,7 +7,7 @@ LENGTH WEIBULL 10000 10.5 11
 #RADIUS CONST 0.025
 RADIUS LOGNORMAL 10000 1.7883 0.083
 TOLERANCE 1.0e-6
-CNT noofcnt=1 wall=12 sigma=0.01 [S/um] node=10 tht_max=30.0 [dgr]
+CNT save=no noofcnt=1 wall=12 sigma=0.01 [S/um] node=10 tht_max=30.0 [dgr]
 POLYMER strain=0.00 mass=1.19e-12 [g/um^3] poisson=0.49 deltaE=1.0 [eV] M=400 Dcutoff=0.0010 [um]
 RANDTRIAL n=1 seed=100000
 # if seed=-1 : equal spacing

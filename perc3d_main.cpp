@@ -30,15 +30,15 @@ void ConfigureCNTsAndDomain(eGEOM eGeom, int nRandomSeed,
 void WeibullDistribution(bool bWeibul, int nRandSeedWeibull, double *dLengthCNT, int nNoofCNTs, double dPower, double dLengthBar);
 void LogNormDistribution(bool bLogNorm, int nRandSeedLogNormal, double *dRadiusCNT, int nNoofCNTs, double dMean, double dStdev);
 
-void ReadInput(char *fn, SInput *sInParam, eCALC *eCalculate, int *nRandomSeed, int *nRandTrial, nLoopParam *nNCNT, dLoopParam *dSTRN );
-void SingleCalculation(SInput sInParam, int nRandomSeed, double *dVolumeFraction, double *dWeightFraction, double *dConductance, double *dCondcutivity, bool *bError, char *fn_cnt_out);
+void ReadInput(char *fn, SInput *sInParam, eCALC *eCalculate, int *nRandomSeed, int *nRandTrial, nLoopParam *nNCNT, dLoopParam *dSTRN, bool *bSaveCNTData );
+void SingleCalculation(SInput sInParam, int nRandomSeed, double *dVolumeFraction, double *dWeightFraction, double *dConductance, double *dCondcutivity, bool *bError, char *fn_cnt_out, bool bSaveCNTData);
 
 int main(int argc, char *argv[]) 
 {
 	int year = 2019;
 	int date = 12;
 	char month[255] = "SEP";
-	double version = 0.43;
+	double version = 0.44;
 
 	
 	if ( argv[1] == NULL )
@@ -60,8 +60,9 @@ int main(int argc, char *argv[])
 	int nRandomSeed;
 	nLoopParam nNCNT; 
 	dLoopParam dSTRN;
+	bool bSaveCNTData = false;
 
-	ReadInput(/*fninput*/argv[1], &sInParam, &eCalculate, &nRandomSeed, &nRandTrial, &nNCNT, &dSTRN);
+	ReadInput(/*fninput*/argv[1], &sInParam, &eCalculate, &nRandomSeed, &nRandTrial, &nNCNT, &dSTRN, &bSaveCNTData);
 
 //	omp_set_num_threads(28);
 
@@ -115,13 +116,19 @@ int main(int argc, char *argv[])
 				printf("Number of trial: %d of %d\n", r+1, nRandTrial);
 				printf("Random Seed: %d\n", nRandSeedArray[r]);
 
+				char fn_cnt_out[255];
 
-				char fn_cnt_out[256];
-				sprintf(fn_cnt_out, "cnt_n%d_s%2.2f_r%d.txt", sInParam.m_nNoofCNTs, sInParam.m_dStrain, nRandSeedArray[r]);
+				if(bSaveCNTData)
+				{
+					sprintf(fn_cnt_out, "cnt_n%d_s%2.2f_r%d.txt", sInParam.m_nNoofCNTs, sInParam.m_dStrain, nRandSeedArray[r]);
+					chdir(directory);
+				}
+				SingleCalculation(sInParam, nRandSeedArray[r], &dVolumeFraction, &dWeightFraction, &dConductance, &dConductivity, &bError, fn_cnt_out, bSaveCNTData);
+				if(bSaveCNTData)
+				{
+					chdir("..");
+				}
 
-				chdir(directory);
-				SingleCalculation(sInParam, nRandSeedArray[r], &dVolumeFraction, &dWeightFraction, &dConductance, &dConductivity, &bError, fn_cnt_out);
-				chdir("..");
 				printf("\n");
 
 				if (r == 0) fprintf(fp_conductance, "%2.5e\t%2.5e\t%2.5e", dVolumeFraction*100., dWeightFraction * 100, dConductance);
@@ -186,11 +193,18 @@ int main(int argc, char *argv[])
 				printf("Random Seed: %d\n", nRandSeedArray[r]);
 
 				char fn_cnt_out[256];
-				sprintf(fn_cnt_out, "cnt_n%d_s%2.2f_r%d.txt", sInParam.m_nNoofCNTs, sInParam.m_dStrain, nRandSeedArray[r]);
 
-				chdir(directory);
-				SingleCalculation(sInParam, nRandSeedArray[r], &dVolumeFraction, &dWeightFraction, &dConductance, &dConductivity, &bError, fn_cnt_out);
-				chdir("..");
+				if( bSaveCNTData ) 
+				{
+					sprintf(fn_cnt_out, "cnt_n%d_s%2.2f_r%d.txt", sInParam.m_nNoofCNTs, sInParam.m_dStrain, nRandSeedArray[r]);
+					chdir(directory);
+				}	
+				SingleCalculation(sInParam, nRandSeedArray[r], &dVolumeFraction, &dWeightFraction, &dConductance, &dConductivity, &bError, fn_cnt_out, bSaveCNTData );
+				
+				if( bSaveCNTData )
+				{
+					chdir("..");
+				}
 				printf("\n");
 
 				if (r == 0) fprintf(fp_conductance, "%2.5e\t%2.5e\t%2.5e\t%2.5e", sInParam.m_dStrain, dVolumeFraction*100., dWeightFraction*100., dConductance);
@@ -314,7 +328,7 @@ void ConfigureCNTsAndDomain(eGEOM eGeom, int nRandomSeed,
 }
 
 
-void ReadInput(char *fn, SInput *sInParam, eCALC *eCalculate, int *nRandomSeed, int *nRandTrial, nLoopParam *nNCNT, dLoopParam *dSTRN)
+void ReadInput(char *fn, SInput *sInParam, eCALC *eCalculate, int *nRandomSeed, int *nRandTrial, nLoopParam *nNCNT, dLoopParam *dSTRN, bool *bSaveCNTData)
 {
 	FILE *fp = fopen(fn, "r");
 
@@ -398,7 +412,7 @@ void ReadInput(char *fn, SInput *sInParam, eCALC *eCalculate, int *nRandomSeed, 
 				sscanf(str, "%s %s %d %lf %lf", dummy, dummy2, &(sInParam->m_nRandSeedLogNormal), &(sInParam->m_dMean), &(sInParam->m_dStdev) );
 				sInParam->m_bLognormal = true;
 			}
-			//RADIUS CONST 0.025[um]
+			//RADIUS CONST
 			else
 			{
 				sscanf(str, "%s %s %lf", dummy, dummy2, &(sInParam->m_dMean) );
@@ -415,7 +429,10 @@ void ReadInput(char *fn, SInput *sInParam, eCALC *eCalculate, int *nRandomSeed, 
 
 		case 6:
 			// CNT
-			sscanf(str, "%s noofcnt=%d wall=%d sigma=%lf [S/um] node=%d tht_max=%lf [dgr]", dummy, &(sInParam->m_nNoofCNTs), &(sInParam->m_nNoofWall), &(sInParam->m_dConductivity_cnt), &(sInParam->m_nNoofNodesInitial), &(sInParam->m_dTheta_dev_dgr) );
+			sscanf(str, "%s save=%s noofcnt=%d wall=%d sigma=%lf [S/um] node=%d tht_max=%lf [dgr]", dummy, dummy2, &(sInParam->m_nNoofCNTs), &(sInParam->m_nNoofWall), &(sInParam->m_dConductivity_cnt), &(sInParam->m_nNoofNodesInitial), &(sInParam->m_dTheta_dev_dgr) );
+			if (strstr(dummy2, "yes")|| strstr(dummy2, "YES") || strstr(dummy2, "Yes")) *bSaveCNTData = true;
+			else if (strstr(dummy2, "no") || strstr(dummy2, "No") || strstr(dummy2, "NO")) *bSaveCNTData = false;
+			else *bSaveCNTData = false;
 			break;
 
 		case 7:
@@ -464,8 +481,9 @@ void ReadInput(char *fn, SInput *sInParam, eCALC *eCalculate, int *nRandomSeed, 
 
 
 void SingleCalculation(SInput sInParam, int nRandomSeed,
-										double *dFractionVolume, double *dFractionWeight, 
-										double *dConductance, double *dConductivity, bool *bError, char *fn_cnt_out)
+	double *dFractionVolume, double *dFractionWeight, 
+	double *dConductance, double *dConductivity, 
+	bool *bError, char *fn_cnt_out, bool bSaveCNTData)
 {
 	CCNT *CNTs = new CCNT[sInParam.m_nNoofCNTs];
 	double *dLengthCNT = new double[sInParam.m_nNoofCNTs];
@@ -496,7 +514,10 @@ void SingleCalculation(SInput sInParam, int nRandomSeed,
 
 	*dConductivity = cPerc3D.SolveConductivityGlobal(nPercolationList, &nNoofPercolationNetwork, dConductance, bError);
 
-	cPerc3D.FilePrintCNTs(fn_cnt_out, sInParam, nPercolationList, nNoofPercolationNetwork);
+	if(bSaveCNTData)
+	{
+		cPerc3D.FilePrintCNTs(fn_cnt_out, sInParam, nPercolationList, nNoofPercolationNetwork);
+	}
 
 	delete[] CNTs;
 	delete[] nPercolationList;
